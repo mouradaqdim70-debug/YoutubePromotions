@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlappyNova Video Hub</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #00b894, #0984e3, #636e72);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+  }
+
+  button {
+    background: #00b894;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover { background: #00ffdd; color: black; }
+
+  h2 { color: #00ffdd; margin-top: 0; }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px);}
+    100% { opacity: 1; transform: translateY(0);}
+  }
+</style>
+</head>
+<body>
+
+<!-- SIGN UP CARD -->
+<div class="card" id="signupCard">
+  <h2>Sign Up</h2>
+  <input type="text" id="username" placeholder="Enter your name">
+  <input type="email" id="email" placeholder="Enter your email">
+  <button onclick="signUp()">Sign Up</button>
+  <p id="signupMessage"></p>
+</div>
+
+<!-- POST VIDEO CARD (hidden initially) -->
+<div class="card" id="postCard" style="display:none;">
+  <h2>Post Your YouTube Video</h2>
+  <input type="text" id="videoLink" placeholder="Enter YouTube video link">
+  <button onclick="postVideo()">Post Video</button>
+  <p id="postMessage"></p>
+
+  <h2>Submitted Videos</h2>
+  <ul id="videoList"></ul>
+</div>
+
+<script>
+let users = [];
+let videos = [];
+
+function signUp() {
+  const username = document.getElementById('username').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if(!username || !email){
+    document.getElementById('signupMessage').innerText = "Please enter your name and email!";
+    return;
+  }
+
+  users.push({username, email});
+  document.getElementById('signupMessage').innerText = `Welcome, ${username}!`;
+
+  // Hide signup and show post card
+  document.getElementById('signupCard').style.display = 'none';
+  document.getElementById('postCard').style.display = 'block';
+}
+
+function postVideo() {
+  const videoLink = document.getElementById('videoLink').value.trim();
+  if(!videoLink){
+    document.getElementById('postMessage').innerText = "Please enter a YouTube link!";
+    return;
+  }
+
+  videos.push(videoLink);
+  const li = document.createElement('li');
+  li.innerHTML = `<a href="${videoLink}" target="_blank">${videoLink}</a>`;
+  document.getElementById('videoList').appendChild(li);
+
+  document.getElementById('postMessage').innerText = "Video posted!";
+  document.getElementById('videoLink').value = '';
+}
+</script>
+
+</body>
+</html>
